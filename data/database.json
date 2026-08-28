@@ -9,15 +9,44 @@
       "bio": "",
       "avatar": "/uploads/1787916926401-4k18wqpafacvf4e9nmkf3d.png",
       "created_at": "2026-08-28T10:56:05.823Z"
+    },
+    {
+      "id": 2,
+      "username": "najotnajot00",
+      "email": "najotnajot00@gmail.com",
+      "password": "$2b$12$OcBItfTEjBIr2QoXBpObTeWCXRBvFvPANDBflR3ylJiO9X5zjJ1N.",
+      "name": "Najot Najot",
+      "bio": "",
+      "avatar": "",
+      "created_at": "2026-08-28T18:31:20.496Z"
+    },
+    {
+      "id": 3,
+      "username": "kamron",
+      "email": "ozodobkamronbek5304@gmail.com",
+      "password": "$2b$12$dvShOXJP1KS65elumRBfF.Lccng8TSzU5WUX3kq3kb3PMbEr3jZP6",
+      "name": "kamron",
+      "bio": "",
+      "avatar": "",
+      "created_at": "2026-08-28T18:35:24.574Z"
     }
   ],
-  "posts": [],
+  "posts": [
+    {
+      "id": 11,
+      "user_id": 2,
+      "image": "/uploads/1787941899348-2qqqzu5k3fcdmjud6s6loo.png",
+      "caption": "",
+      "created_at": "2026-08-28T18:31:39.392Z"
+    }
+  ],
   "likes": [],
   "comments": [],
   "follows": [],
   "counters": {
-    "users": 2,
-    "posts": 11,
+    "users": 4,
+    "posts": 12,
     "comments": 5
-  }
+  },
+  "stories": []
 }
