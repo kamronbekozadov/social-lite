@@ -1,4 +1,5 @@
-﻿import express from "express";
+﻿import "dotenv/config";
+import express from "express";
 import cookieParser from "cookie-parser";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -13,9 +14,13 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const JWT_SECRET =
-  process.env.JWT_SECRET ||
-  "SOCIAL_LITE_CHANGE_THIS_SECRET_123456789";
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+  throw new Error(
+    "JWT_SECRET .env faylida topilmadi."
+  );
+}
 
 const DATA_DIR = path.join(__dirname, "data");
 const UPLOAD_DIR = path.join(__dirname, "public", "uploads");
