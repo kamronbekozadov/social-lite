@@ -1,0 +1,23 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "komuw",
+      "email": "ozodovkamronbek5304@gmail.com",
+      "password": "$2b$12$qX7vfk1QLv8RRQea2iC.e.Bat9eL0sYO2TKENB/QGyyXNCMWbgdRS",
+      "name": "kamron",
+      "bio": "",
+      "avatar": "/uploads/1787916926401-4k18wqpafacvf4e9nmkf3d.png",
+      "created_at": "2026-08-28T10:56:05.823Z"
+    }
+  ],
+  "posts": [],
+  "likes": [],
+  "comments": [],
+  "follows": [],
+  "counters": {
+    "users": 2,
+    "posts": 11,
+    "comments": 5
+  }
+}

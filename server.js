@@ -67,6 +67,7 @@ function loadDB() {
     db.likes ??= [];
     db.comments ??= [];
     db.follows ??= [];
+     db.stories ??= [];
     db.counters ??= {};
 
     db.counters.users ??= 1;
@@ -1314,3 +1315,4 @@ app.listen(
     console.log("");
   }
 );
+

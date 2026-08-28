@@ -1309,6 +1309,338 @@ $("#searchInput")?.addEventListener(
   )
 );
 
+
+async function loadStories() {
+  try {
+    const data =
+      await api("/api/stories");
+
+    renderStories(
+      data.stories || []
+    );
+  } catch (err) {
+    toast(err.message);
+  }
+}
+
+function renderStories(stories) {
+  const container =
+    $("#stories");
+
+  if (!container) return;
+
+  const mine = stories.find(
+    (story) => story.isMine
+  );
+
+  const others = stories.filter(
+    (story) => !story.isMine
+  );
+
+  container.innerHTML = `
+    <div
+      class="story add-story"
+      onclick="openCreateStory()"
+    >
+      <div class="story-avatar add">
+        ${mine ? "↻" : "＋"}
+      </div>
+
+      <span>
+        ${mine ? "Story qo‘shish" : "Siz"}
+      </span>
+    </div>
+
+    ${
+      mine
+        ? `
+          <div
+            class="story"
+            onclick="openStoryViewer(${mine.id})"
+          >
+            ${avatarHTML(
+              mine,
+              "story-avatar"
+            )}
+
+            <span>
+              Siz
+            </span>
+          </div>
+        `
+        : ""
+    }
+
+    ${others
+      .map(
+        (story) => `
+          <div
+            class="story"
+            onclick="openStoryViewer(${story.id})"
+          >
+            <div
+              class="story-ring"
+            >
+              ${avatarHTML(
+                story,
+                "story-avatar"
+              )}
+            </div>
+
+            <span>
+              ${escapeHTML(
+                story.username
+              )}
+            </span>
+          </div>
+        `
+      )
+      .join("")}
+  `;
+}
+
+function openCreateStory() {
+  $("#modalContent").innerHTML = `
+    <button
+      class="modal-close"
+      onclick="closeModal()"
+      aria-label="Yopish"
+    >
+      ×
+    </button>
+
+    <div class="modal-title">
+      Yangi Story
+    </div>
+
+    <form id="createStoryForm">
+
+      <input
+        id="storyImage"
+        name="image"
+        type="file"
+        accept="
+          image/jpeg,
+          image/png,
+          image/webp,
+          image/gif
+        "
+        required
+      >
+
+      <img
+        id="storyPreview"
+        class="post-image hidden"
+        style="
+          max-height:60vh;
+          border-radius:12px;
+          object-fit:contain;
+        "
+        alt="Story ko‘rinishi"
+      >
+
+      <button
+        class="primary"
+        type="submit"
+      >
+        Story joylash
+      </button>
+
+    </form>
+  `;
+
+  $("#modal")
+    .classList
+    .remove("hidden");
+
+  $("#storyImage")
+    .addEventListener(
+      "change",
+      previewStoryImage
+    );
+
+  $("#createStoryForm")
+    .addEventListener(
+      "submit",
+      createStory
+    );
+}
+
+function previewStoryImage(event) {
+  const file =
+    event.target.files[0];
+
+  if (!file) return;
+
+  const preview =
+    $("#storyPreview");
+
+  if (preview.dataset.url) {
+    URL.revokeObjectURL(
+      preview.dataset.url
+    );
+  }
+
+  const url =
+    URL.createObjectURL(file);
+
+  preview.src = url;
+  preview.dataset.url = url;
+
+  preview.classList.remove(
+    "hidden"
+  );
+}
+
+async function createStory(event) {
+  event.preventDefault();
+
+  const form =
+    event.target;
+
+  const data =
+    new FormData(form);
+
+  try {
+    await api(
+      "/api/stories",
+      {
+        method: "POST",
+        body: data
+      }
+    );
+
+    closeModal();
+
+    await loadStories();
+
+    toast(
+      "Story joylandi!"
+    );
+  } catch (err) {
+    toast(err.message);
+  }
+}
+
+async function openStoryViewer(id) {
+  try {
+    const data =
+      await api("/api/stories");
+
+    const story =
+      data.stories.find(
+        (item) =>
+          Number(item.id) ===
+          Number(id)
+      );
+
+    if (!story) {
+      await loadStories();
+
+      toast(
+        "Bu Story muddati tugagan."
+      );
+
+      return;
+    }
+
+    const deleteButton =
+      story.isMine
+        ? `
+          <button
+            class="secondary"
+            onclick="deleteStory(${story.id})"
+            style="margin-top:12px"
+          >
+            Storyni o‘chirish
+          </button>
+        `
+        : "";
+
+    $("#modalContent").innerHTML = `
+      <button
+        class="modal-close"
+        onclick="closeModal()"
+        aria-label="Yopish"
+      >
+        ×
+      </button>
+
+      <div
+        style="
+          display:flex;
+          align-items:center;
+          gap:10px;
+          margin-bottom:12px;
+        "
+      >
+        ${avatarHTML(
+          story,
+          "avatar"
+        )}
+
+        <strong>
+          @${escapeHTML(
+            story.username
+          )}
+        </strong>
+      </div>
+
+      <img
+        src="${escapeHTML(
+          story.image
+        )}"
+        alt="Story"
+        style="
+          display:block;
+          width:100%;
+          max-height:75vh;
+          object-fit:contain;
+          border-radius:14px;
+        "
+      >
+
+      ${deleteButton}
+    `;
+
+    $("#modal")
+      .classList
+      .remove("hidden");
+
+  } catch (err) {
+    toast(err.message);
+  }
+}
+
+async function deleteStory(id) {
+  if (
+    !confirm(
+      "Bu Storyni o‘chirasizmi?"
+    )
+  ) {
+    return;
+  }
+
+  try {
+    await api(
+      `/api/stories/${id}`,
+      {
+        method: "DELETE"
+      }
+    );
+
+    closeModal();
+
+    await loadStories();
+
+    toast(
+      "Story o‘chirildi."
+    );
+  } catch (err) {
+    toast(err.message);
+  }
+}
+
 function debounce(fn, delay) {
   let timer;
 
