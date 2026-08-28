@@ -1,0 +1,324 @@
+﻿<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+
+  <title>Social Lite</title>
+
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+  <div id="toast"></div>
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-inner">
+
+      <button
+        class="brand"
+        onclick="goHome()"
+        type="button"
+      >
+        <span class="brand-icon">◈</span>
+        <span>Social Lite</span>
+      </button>
+
+      <div class="search">
+
+        <span>⌕</span>
+
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Qidirish..."
+          autocomplete="off"
+        >
+
+      </div>
+
+      <nav>
+
+        <button
+          onclick="goHome()"
+          title="Bosh sahifa"
+          type="button"
+        >
+          ⌂
+        </button>
+
+        <button
+          onclick="openCreate()"
+          title="Post yaratish"
+          type="button"
+        >
+          ＋
+        </button>
+
+        <button
+          onclick="showProfile()"
+          title="Profil"
+          type="button"
+        >
+          ◉
+        </button>
+
+        <button
+          onclick="logout()"
+          id="logoutBtn"
+          title="Chiqish"
+          type="button"
+        >
+          ↪
+        </button>
+
+      </nav>
+
+    </div>
+  </header>
+
+
+  <!-- MAIN -->
+  <main class="container">
+
+    <!-- AUTH -->
+    <section
+      id="authView"
+      class="auth-view hidden"
+    >
+
+      <div class="auth-card">
+
+        <div class="logo-big">
+          ◈
+        </div>
+
+        <h1>Social Lite</h1>
+
+        <p class="muted">
+          Yengil va tezkor ijtimoiy tarmoq
+        </p>
+
+
+        <!-- LOGIN -->
+        <div id="loginBox">
+
+          <form id="loginForm">
+
+            <input
+              name="usernameOrEmail"
+              placeholder="Username yoki email"
+              autocomplete="username"
+              required
+            >
+
+            <input
+              name="password"
+              type="password"
+              placeholder="Parol"
+              autocomplete="current-password"
+              required
+            >
+
+            <button
+              class="primary"
+              type="submit"
+            >
+              Kirish
+            </button>
+
+          </form>
+
+
+          <p class="switch">
+
+            Hisobingiz yo‘qmi?
+
+            <button
+              onclick="toggleAuth(false)"
+              type="button"
+            >
+              Ro‘yxatdan o‘tish
+            </button>
+
+          </p>
+
+        </div>
+
+
+        <!-- REGISTER -->
+        <div
+          id="registerBox"
+          class="hidden"
+        >
+
+          <form id="registerForm">
+
+            <input
+              name="name"
+              placeholder="Ism"
+              autocomplete="name"
+              required
+            >
+
+            <input
+              name="username"
+              placeholder="Username"
+              autocomplete="username"
+              required
+            >
+
+            <input
+              name="email"
+              type="email"
+              placeholder="Email"
+              autocomplete="email"
+              required
+            >
+
+            <input
+              name="password"
+              type="password"
+              placeholder="Parol"
+              autocomplete="new-password"
+              minlength="6"
+              required
+            >
+
+            <button
+              class="primary"
+              type="submit"
+            >
+              Ro‘yxatdan o‘tish
+            </button>
+
+          </form>
+
+
+          <p class="switch">
+
+            Hisobingiz bormi?
+
+            <button
+              onclick="toggleAuth(true)"
+              type="button"
+            >
+              Kirish
+            </button>
+
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- APP -->
+    <section
+      id="appView"
+      class="hidden"
+    >
+
+      <!-- HOME -->
+      <div id="homePage">
+
+        <!-- STORIES -->
+        <div class="stories">
+
+          <div
+            class="story add-story"
+            onclick="openCreate()"
+          >
+
+            <div class="story-avatar add">
+              ＋
+            </div>
+
+            <span>Siz</span>
+
+          </div>
+
+
+          <div class="story">
+
+            <div class="story-avatar gradient">
+              SL
+            </div>
+
+            <span>Social</span>
+
+          </div>
+
+
+          <div class="story">
+
+            <div class="story-avatar gradient2">
+              ★
+            </div>
+
+            <span>Friends</span>
+
+          </div>
+
+        </div>
+
+
+        <!-- FEED -->
+        <div id="feed"></div>
+
+      </div>
+
+
+      <!-- PROFILE -->
+      <div
+        id="profilePage"
+        class="hidden"
+      ></div>
+
+
+      <!-- SEARCH -->
+      <div
+        id="searchPage"
+        class="hidden"
+      >
+
+        <h2>Qidiruv</h2>
+
+        <div id="searchResults"></div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- MODAL -->
+  <div
+    id="modal"
+    class="modal hidden"
+  >
+
+    <div
+      class="modal-backdrop"
+      onclick="closeModal()"
+    ></div>
+
+    <div
+      class="modal-card"
+      id="modalContent"
+    ></div>
+
+  </div>
+
+
+  <!-- APP JS -->
+  <script src="/app.js"></script>
+
+</body>
+</html>
